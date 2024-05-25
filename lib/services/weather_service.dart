@@ -1,14 +1,14 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:weather/services/constants/constans.dart';
 
 import '../model/weather.dart';
 
 class WeatherService {
-  final String apiKey = '9447daa2a50fda3595bf109791f07e67'; // Replace with your OpenWeatherMap API key
-
-  Future<Weather> fetchWeatherByCoordinates(double latitude, double longitude) async {
+  Future<Weather> fetchWeatherByCoordinates(
+      double latitude, double longitude) async {
     final response = await http.get(Uri.parse(
-      'https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&units=metric&appid=$apiKey',
+      '${CApiHelper.domain}lat=$latitude&lon=$longitude${CApiHelper.endPoint + CApiHelper.apiKey}',
     ));
 
     if (response.statusCode == 200) {
@@ -20,7 +20,7 @@ class WeatherService {
 
   Future<Weather> fetchWeatherByCityName(String cityName) async {
     final response = await http.get(Uri.parse(
-      'https://api.openweathermap.org/data/2.5/weather?q=$cityName&units=metric&appid=$apiKey',
+      '${CApiHelper.domain}q=$cityName${CApiHelper.endPoint + CApiHelper.apiKey}',
     ));
 
     if (response.statusCode == 200) {
