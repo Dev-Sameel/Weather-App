@@ -6,11 +6,18 @@ class DBServices {
   Box<LocalStore>? _dbBox;
 
   Future<void> openBox() async {
-    _dbBox = await Hive.openBox<LocalStore>('weatherResult');
+    _dbBox = await Hive.openBox<LocalStore>('weatherBox');
   }
 
   Future<void> closeBox() async {
     await _dbBox!.close();
+  }
+
+  Future<void> clearAllData() async {
+    if (_dbBox == null) {
+      await openBox();
+    }
+    await _dbBox!.clear();
   }
 
 
@@ -38,11 +45,5 @@ class DBServices {
   //   print("updated");
   // }
 
-  Future<void> deleteResult(int index) async {
-    if (_dbBox == null) {
-      await openBox();
-    }
-
-    await _dbBox!.deleteAt(index);
-  }
+  
 }

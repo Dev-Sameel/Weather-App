@@ -2,16 +2,14 @@ import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:weather/model/constants/color.dart';
 import 'package:weather/model/db/local_storage_model.dart';
 import '../model/weather_model.dart';
-
 import '../services/db/local_storage_services.dart';
 import '../services/weather_service.dart';
-import 'preference_controller.dart';
 
 class WeatherController extends GetxController {
-  final PrefControll controll = Get.put(PrefControll());
   var isLoading = false.obs;
   var weather = Weather(
           description: '',
@@ -22,43 +20,31 @@ class WeatherController extends GetxController {
           name: '')
       .obs;
 
+  Box<LocalStore> weatherBox = Hive.box<LocalStore>('weatherBox');
+
   final WeatherService weatherService = WeatherService();
   final DBServices dbServices = DBServices();
-  Rx<LocalStore> dbBox = LocalStore(
-          location: 'empty',
-          description: '',
-          temp: 0.0,
-          feelsLike: 0.0,
-          pressure: 0,
-          humidity: 0)
-      .obs;
 
   @override
   void onInit() {
     super.onInit();
-    fetchDBdata();
-    
-    checkdata();
-    log(dbBox.value.location.toString());
-    // fetchCurrentWeather();
+    checkData();
   }
 
-  Future<void> fetchDBdata() async {
-  await dbServices.openBox();
-  dbBox.value = await dbServices.getResult();
-}
-
-
-  checkdata() async {
-    dbBox.value.location == 'empty'
-        ? fetchCurrentWeather()
-        : weather(Weather(
-            feels_like: dbBox.value.feelsLike,
-            description: dbBox.value.description,
-            temperature: dbBox.value.temp,
-            pressure: dbBox.value.pressure,
-            humidity: dbBox.value.humidity,
-            name: dbBox.value.location));
+  void checkData() async {
+    var localData = weatherBox.get('currentWeather');
+    if (localData == null) {
+      fetchCurrentWeather();
+    } else {
+      weather(Weather(
+        feels_like: localData.feelsLike,
+        description: localData.description,
+        temperature: localData.temp,
+        pressure: localData.pressure,
+        humidity: localData.humidity,
+        name: localData.location,
+      ));
+    }
   }
 
   void fetchCurrentWeather() async {
@@ -69,19 +55,17 @@ class WeatherController extends GetxController {
         position.latitude,
         position.longitude,
       );
-      log(position.latitude.toString());
-      log(position.longitude.toString());
       weather(fetchedWeather);
-      controll.checkLocation(true);
+
       final newDb = LocalStore(
-          feelsLike: weather.value.feels_like,
-          description: weather.value.description,
-          temp: weather.value.temperature,
-          pressure: weather.value.pressure,
-          humidity: weather.value.humidity,
-          location: weather.value.name);
-      log(newDb.location.toString());
-      await dbServices.addResult(newDb);
+        feelsLike: weather.value.feels_like,
+        description: weather.value.description,
+        temp: weather.value.temperature,
+        pressure: weather.value.pressure,
+        humidity: weather.value.humidity,
+        location: weather.value.name,
+      );
+      await weatherBox.put('currentWeather', newDb);
     } catch (e) {
       log(e.toString());
       if (e == 'Location services are disabled.') {
@@ -102,14 +86,14 @@ class WeatherController extends GetxController {
           await weatherService.fetchWeatherByCityName(cityName);
       weather(fetchedWeather);
       final newDb = LocalStore(
-          feelsLike: weather.value.feels_like,
-          description: weather.value.description,
-          temp: weather.value.temperature,
-          pressure: weather.value.pressure,
-          humidity: weather.value.humidity,
-          location: weather.value.name);
-      log(newDb.location.toString());
-      await dbServices.addResult(newDb);
+        feelsLike: weather.value.feels_like,
+        description: weather.value.description,
+        temp: weather.value.temperature,
+        pressure: weather.value.pressure,
+        humidity: weather.value.humidity,
+        location: weather.value.name,
+      );
+      await weatherBox.put('currentWeather', newDb);
     } catch (e) {
       Get.snackbar('Error', e.toString(),
           snackPosition: SnackPosition.TOP, backgroundColor: CColors.kWhite);

@@ -1,7 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:weather/controller/preference_controller.dart';
+
+import 'package:weather/services/db/local_storage_services.dart';
 
 import '../../controller/weather_controller.dart';
 import '../../model/constants/color.dart';
@@ -17,6 +19,14 @@ class HomeView extends StatelessWidget {
     final WeatherController weatherController = Get.put(WeatherController());
     return SafeArea(
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: CColors.kTransparent,
+          onPressed: () async {
+            // var a = await DBServices().getResult();
+            // log(a.location.toString());
+            await DBServices().clearAllData();
+          },
+        ),
         backgroundColor: CColors.kBlack,
         body: Obx(() {
           final data = weatherController.weather.value;
@@ -36,31 +46,35 @@ class HomeView extends StatelessWidget {
                 value: data.description,
                 fontSize: 25,
               ),
-              const SizedBox(height: CSize.spaceBtwSections),
+
               weatherController.isLoading.value
-                  ? const Center(child: CircularProgressIndicator())
+                  ? const Center(
+                      child: Padding(
+                      padding: EdgeInsets.all(CSize.md),
+                      child: CircularProgressIndicator(
+                        color: CColors.kWhite,
+                      ),
+                    ))
                   : data.description == ''
                       ? Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text(
-                                'Location services are disabled. Please enable location services.',
+                          child: Container(
+                            margin: EdgeInsets.all(CSize.lg),
+                            height: 100,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: CColors.kGrey),
+                              borderRadius: BorderRadius.circular(CSize.lg),
+                            ),
+                            child: Center(
+                              child: const Text(
+                                'Hi Sammel \nWelcome to Weather app',
                                 style: TextStyle(
-                                    fontSize: 18, color: CColors.kWhite),
+                                    fontSize: 18,
+                                    color: CColors.kWhite,
+                                    fontFamily: 'Righteous'),
                                 textAlign: TextAlign.center,
                               ),
-                              const SizedBox(height: 20),
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: CColors.kGrey,
-                                    foregroundColor: CColors.kWhite),
-                                onPressed: () {
-                                  weatherController.fetchCurrentWeather();
-                                },
-                                child: const Text('Retry'),
-                              ),
-                            ],
+                            ),
                           ),
                         )
                       :

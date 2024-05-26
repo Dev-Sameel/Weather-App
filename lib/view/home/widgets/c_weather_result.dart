@@ -15,25 +15,25 @@ class CWeatherResult extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(CSize.md),
+      margin: const EdgeInsets.all(CSize.lg),
       height: 220,
       decoration: BoxDecoration(
           boxShadow: const [
             BoxShadow(
               color: Color.fromARGB(255, 78, 78, 78),
-              blurRadius: 15,
+              blurRadius: 17,
               spreadRadius: 1,
               offset: Offset(-5, -5),
             ),
             BoxShadow(
-              color: Color.fromARGB(255, 0, 0, 0),
+              color: Color.fromARGB(255, 5, 5, 5),
               blurRadius: 15,
               spreadRadius: 1,
               offset: Offset(5, 5),
             ),
           ],
           borderRadius: BorderRadius.circular(CSize.lg),
-          color: const Color.fromRGBO(22, 22, 22, 1)),
+          color: Color.fromARGB(255, 26, 26, 26)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
