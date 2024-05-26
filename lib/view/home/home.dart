@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:weather/services/constants/constans.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:weather/controller/preference_controller.dart';
 
 import '../../controller/weather_controller.dart';
 import '../../model/constants/color.dart';
 import '../../model/constants/size.dart';
-import '../search/search.dart';
-import 'widgets/c_icon_button.dart';
+
+import 'widgets/c_weather_header.dart';
+import 'widgets/c_weather_result.dart';
 import 'widgets/c_weather_value_text.dart';
 
 class HomeView extends StatelessWidget {
-  final WeatherController weatherController = Get.put(WeatherController());
-
   @override
   Widget build(BuildContext context) {
+    final WeatherController weatherController = Get.put(WeatherController());
     return SafeArea(
       child: Scaffold(
         backgroundColor: CColors.kBlack,
@@ -22,26 +23,10 @@ class HomeView extends StatelessWidget {
           return Column(
             children: [
               ///Header
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  ///Icon Button
-                  CIconButton(
-                      icon: Icons.gps_fixed,
-                      onPressed: () {
-                        weatherController.fetchCurrentWeather();
-                      }),
-
-                  CWeatherValueText(
-                    label: 'Location',
-                    value: data.name,
-                  ),
-                  CIconButton(
-                      icon: Icons.search,
-                      onPressed: () => Get.to(SearchView())),
-                ],
+              CWeatherHeader(
+                weatherController: weatherController,
               ),
-              Image(
+              const Image(
                 image: AssetImage('assets/images/logo.png'),
                 width: 280,
                 height: 280,
@@ -51,66 +36,37 @@ class HomeView extends StatelessWidget {
                 value: data.description,
                 fontSize: 25,
               ),
-              SizedBox(height: CSize.spaceBtwSections),
+              const SizedBox(height: CSize.spaceBtwSections),
               weatherController.isLoading.value
-                  ? Center(child: CircularProgressIndicator())
+                  ? const Center(child: CircularProgressIndicator())
                   : data.description == ''
                       ? Center(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
+                              const Text(
                                 'Location services are disabled. Please enable location services.',
-                                style: TextStyle(fontSize: 18),
+                                style: TextStyle(
+                                    fontSize: 18, color: CColors.kWhite),
                                 textAlign: TextAlign.center,
                               ),
-                              SizedBox(height: 20),
+                              const SizedBox(height: 20),
                               ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: CColors.kGrey,
+                                    foregroundColor: CColors.kWhite),
                                 onPressed: () {
                                   weatherController.fetchCurrentWeather();
                                 },
-                                child: Text('Retry'),
+                                child: const Text('Retry'),
                               ),
                             ],
                           ),
                         )
-                      : Container(
-                          height: 220,
-                          // color: CColors.kGrey,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  CWeatherValueText(
-                                    label: 'Temp',
-                                    value: '${data.temperature}°',
-                                  ),
-                                  CWeatherValueText(
-                                    label: 'Pressure',
-                                    value: '${data.pressure}hPa',
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  CWeatherValueText(
-                                    label: 'Feels Like',
-                                    value: '${data.feels_like}°',
-                                  ),
-                                  CWeatherValueText(
-                                    label: 'Humidity',
-                                    value: '${data.humidity}%',
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        )
+                      :
+
+                      ///Weather Result
+                      CWeatherResult(data: data)
             ],
           );
         }),

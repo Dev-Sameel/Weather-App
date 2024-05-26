@@ -24,7 +24,7 @@ class CWeatherValueText extends StatelessWidget {
             ? Text(
                 '$label',
                 style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 15,
                     color: CColors.kWhite.withOpacity(0.6),
                     fontFamily: 'Righteous'),
               )
