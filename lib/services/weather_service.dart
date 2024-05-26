@@ -1,7 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:http/http.dart' as http;
-import 'package:get/get.dart';
 import 'package:weather/services/constants/constans.dart';
 import '../model/weather_model.dart';
 

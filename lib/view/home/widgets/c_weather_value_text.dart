@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../model/constants/color.dart';
-import '../../../services/constants/constans.dart';
 
 class CWeatherValueText extends StatelessWidget {
   const CWeatherValueText({
@@ -28,7 +27,7 @@ class CWeatherValueText extends StatelessWidget {
                     color: CColors.kWhite.withOpacity(0.6),
                     fontFamily: 'Righteous'),
               )
-            : SizedBox(),
+            : const SizedBox(),
         Text(
           '$value',
           style: TextStyle(

@@ -26,7 +26,7 @@ class SearchView extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       backgroundColor: CColors.kBlack,
       appBar: AppBar(
-        backgroundColor: CColors.kBlack,
+        backgroundColor: const Color.fromRGBO(74, 140, 136, 1),
         iconTheme: const IconThemeData(color: CColors.kWhite),
         title: const Text('Search City Weather',
             style: TextStyle(color: CColors.kWhite)),
@@ -45,7 +45,7 @@ class SearchView extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 DropdownButtonFormField<String>(
-                  dropdownColor: const Color.fromRGBO(74, 140, 136, 1),
+                  dropdownColor: const Color.fromRGBO(49, 100, 104, 1),
                   iconEnabledColor: CColors.kWhite,
                   decoration: const InputDecoration(
                     border: InputBorder.none,

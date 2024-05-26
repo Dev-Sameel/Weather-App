@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../../../model/constants/color.dart';
-import '../../../services/constants/constans.dart';
 
 class CIconButton extends StatelessWidget {
   const CIconButton({
-    super.key, required this.icon, required this.onPressed,
+    super.key,
+    required this.icon,
+    required this.onPressed,
   });
   final IconData icon;
   final VoidCallback onPressed;
@@ -18,7 +19,7 @@ class CIconButton extends StatelessWidget {
       child: IconButton(
           onPressed: onPressed,
           icon: Icon(
-           icon,
+            icon,
             size: 30,
             color: CColors.kWhite,
           )),

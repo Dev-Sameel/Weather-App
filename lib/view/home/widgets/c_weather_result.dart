@@ -33,7 +33,7 @@ class CWeatherResult extends StatelessWidget {
             ),
           ],
           borderRadius: BorderRadius.circular(CSize.lg),
-          color: Color.fromARGB(255, 26, 26, 26)),
+          color: const Color.fromARGB(255, 26, 26, 26)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
