@@ -64,17 +64,15 @@ class LoginScreen extends StatelessWidget {
                         alignment: Alignment.centerRight,
                         child: TextButton(
                             onPressed: () {
-                              Get.to(() =>  ForgotPassword());
+                              Get.to(() => ForgotPassword());
                             },
-                            child: Text(
+                            child: const Text(
                               'Forgot password?',
                               style: TextStyle(color: CColors.kOrange),
                             ))),
 
                     ///Button
-                    const SizedBox(
-                      height: CSize.spaceBtwSections,
-                    ),
+
                     SizedBox(
                       width: double.infinity,
                       height: 50,
@@ -92,8 +90,8 @@ class LoginScreen extends StatelessWidget {
                             }
                           },
                           child: ctrl.loading.value
-                              ? CircularProgressIndicator()
-                              : Text('SIGN IN')),
+                              ? const CircularProgressIndicator()
+                              : const Text('SIGN IN')),
                     ),
 
                     ///Divider
@@ -121,7 +119,7 @@ class LoginScreen extends StatelessWidget {
                     ),
 
                     ///Divider
-                    CTextFieldFooter(
+                    const CTextFieldFooter(
                       buttonLabel: 'SIGN UP',
                       textLabel: "Don't have an account?",
                     )

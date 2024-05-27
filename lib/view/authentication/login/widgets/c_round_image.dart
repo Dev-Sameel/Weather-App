@@ -7,7 +7,8 @@ class CRoundedImage extends StatelessWidget {
     super.key,
     this.right,
     this.left,
-    this.image, this.backgroundColor=CColors.kBgcolor,
+    this.image,
+    this.backgroundColor = CColors.kBgcolor,
   });
 
   final double? right;

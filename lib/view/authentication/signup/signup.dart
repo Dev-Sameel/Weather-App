@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:weather/controller/authcontroller/authcontroller.dart';
@@ -27,7 +26,7 @@ class SignupScreen extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               height: MediaQuery.of(context).size.width / 1.3,
-              child: Stack(
+              child: const Stack(
                 children: [
                   CRoundedImage(
                     left: -50,
@@ -103,8 +102,8 @@ class SignupScreen extends StatelessWidget {
                             }
                           },
                           child: ctrl.loading.value
-                              ? CircularProgressIndicator()
-                              : Text('SIGN IN')),
+                              ? const CircularProgressIndicator()
+                              : const Text('SIGN IN')),
                     ),
 
                     ///Divider

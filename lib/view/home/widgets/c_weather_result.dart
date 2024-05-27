@@ -55,7 +55,7 @@ class CWeatherResult extends StatelessWidget {
             children: [
               CWeatherValueText(
                 label: 'Feels Like',
-                value: '${data.feels_like}°',
+                value: '${data.feelsLike}°',
               ),
               CWeatherValueText(
                 label: 'Humidity',

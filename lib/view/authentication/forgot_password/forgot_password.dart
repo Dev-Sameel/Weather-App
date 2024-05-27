@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:weather/model/constants/color.dart';
@@ -28,20 +27,20 @@ class ForgotPassword extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Lottie.asset('assets/animations/forgot_password.json',
-                      width: 300),
-                  Text(
+                      width: MediaQuery.of(context).size.width / 1.4),
+                  const Text(
                     'Forgot password?',
                     style: TextStyle(
                         fontSize: CSize.md * 1.8,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Righteous'),
                   ),
-                  Text(
+                  const Text(
                     "Don't worry, happens to the best of us.\nType your email to reset your password",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: CSize.md),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: CSize.spaceBtwSections,
                   ),
                   CTextFormField(
@@ -49,7 +48,7 @@ class ForgotPassword extends StatelessWidget {
                       icon: Icons.email,
                       label: 'Email',
                       border: CTextField.textFieldBorder1),
-                  SizedBox(
+                  const SizedBox(
                     height: CSize.spaceBtwItems,
                   ),
                   SizedBox(
@@ -67,15 +66,15 @@ class ForgotPassword extends StatelessWidget {
                             await ctrl.resetPassword();
                           }
                         },
-                        icon: Icon(Icons.send),
+                        icon: const Icon(Icons.send),
                         label: ctrl.loading.value
-                            ? CircularProgressIndicator()
-                            : Text('Send')),
+                            ? const CircularProgressIndicator()
+                            : const Text('Send')),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: CSize.spaceBtwSections * 2,
                   ),
-                  CTextFieldFooter(
+                  const CTextFieldFooter(
                     buttonLabel: 'SIGN IN',
                     textLabel: 'Remember password?',
                   )

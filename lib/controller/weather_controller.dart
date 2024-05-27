@@ -14,7 +14,7 @@ class WeatherController extends GetxController {
   var weather = Weather(
           description: '',
           temperature: 0.0,
-          feels_like: 0.0,
+          feelsLike: 0.0,
           pressure: 0,
           humidity: 0,
           name: '')
@@ -33,11 +33,9 @@ class WeatherController extends GetxController {
 
   void checkData() async {
     var localData = weatherBox.get('currentWeather');
-    if (localData == null) {
-      fetchCurrentWeather();
-    } else {
+    if (localData != null) {
       weather(Weather(
-        feels_like: localData.feelsLike,
+        feelsLike: localData.feelsLike,
         description: localData.description,
         temperature: localData.temp,
         pressure: localData.pressure,
@@ -58,7 +56,7 @@ class WeatherController extends GetxController {
       weather(fetchedWeather);
 
       final newDb = LocalStore(
-        feelsLike: weather.value.feels_like,
+        feelsLike: weather.value.feelsLike,
         description: weather.value.description,
         temp: weather.value.temperature,
         pressure: weather.value.pressure,
@@ -86,7 +84,7 @@ class WeatherController extends GetxController {
           await weatherService.fetchWeatherByCityName(cityName);
       weather(fetchedWeather);
       final newDb = LocalStore(
-        feelsLike: weather.value.feels_like,
+        feelsLike: weather.value.feelsLike,
         description: weather.value.description,
         temp: weather.value.temperature,
         pressure: weather.value.pressure,

@@ -32,7 +32,7 @@ class CTextFieldFooter extends StatelessWidget {
             },
             child: Text(
               buttonLabel,
-              style: TextStyle(color: CColors.kBlue),
+              style: const TextStyle(color: CColors.kBlue),
             ))
       ],
     );

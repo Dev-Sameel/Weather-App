@@ -11,7 +11,7 @@ class CColors {
 
   static const kBlue = Colors.blue;
 
-  static const kOrange = const Color.fromARGB(255, 243, 100, 33);
+  static const kOrange = Color.fromARGB(255, 243, 100, 33);
 
   static const kBgcolor = Color.fromARGB(255, 0, 36, 53);
 }

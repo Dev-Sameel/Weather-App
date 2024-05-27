@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather/model/constants/color.dart';
 import 'package:weather/model/user_model.dart';
@@ -26,7 +25,7 @@ class AuthController extends GetxController {
     try {
       loading.value = true;
       await auth.createUserWithEmailAndPassword(
-          email: email.text, password: password.text);
+          email: email.text.trim(), password: password.text.trim());
       await addUser();
       await verifyemail();
       Get.offAll(() => HomeScreen());
@@ -35,15 +34,16 @@ class AuthController extends GetxController {
       await sharedPrefs.setString('splashKey', 'login');
     } catch (e) {
       Get.snackbar('Error', e.toString(),
-          backgroundColor: CColors.kWhite, duration: Duration(seconds: 3));
+          backgroundColor: CColors.kWhite,
+          duration: const Duration(seconds: 3));
       loading.value = false;
     }
   }
 
   //add user to database
   addUser() async {
-    UserModel user =
-        UserModel(userName: username.text, email: auth.currentUser?.email);
+    UserModel user = UserModel(
+        userName: username.text.trim(), email: auth.currentUser?.email);
     await db
         .collection("users")
         .doc(auth.currentUser?.uid)
@@ -63,14 +63,15 @@ class AuthController extends GetxController {
     try {
       loading.value = true;
       await auth.signInWithEmailAndPassword(
-          email: loginemail.text, password: loginpassword.text);
+          email: loginemail.text.trim(), password: loginpassword.text.trim());
       Get.offAll(() => HomeScreen());
       loading.value = false;
       final sharedPrefs = await SharedPreferences.getInstance();
       await sharedPrefs.setString('splashKey', 'login');
     } catch (e) {
       Get.snackbar('Error', e.toString(),
-          backgroundColor: CColors.kWhite, duration: Duration(seconds: 3));
+          backgroundColor: CColors.kWhite,
+          duration: const Duration(seconds: 3));
       loading.value = false;
     }
   }
@@ -78,21 +79,23 @@ class AuthController extends GetxController {
   //verify email
   verifyemail() async {
     await auth.currentUser?.sendEmailVerification();
-    Get.snackbar('Email', 'Send verification link to email',
-        backgroundColor: CColors.kWhite, duration: Duration(seconds: 3));
+    Get.snackbar('Email', 'Send verification link to your email',
+        backgroundColor: CColors.kWhite, duration: const Duration(seconds: 3));
   }
 
   //Password reset
   resetPassword() async {
     try {
       loading.value = true;
-      await auth.sendPasswordResetEmail(email: restemail.text);
+      await auth.sendPasswordResetEmail(email: restemail.text.trim());
       Get.snackbar('Email', 'Send successfully',
-          backgroundColor: CColors.kWhite, duration: Duration(seconds: 3));
+          backgroundColor: CColors.kWhite,
+          duration: const Duration(seconds: 3));
       loading.value = false;
     } catch (e) {
       Get.snackbar('Error', e.toString(),
-          backgroundColor: CColors.kWhite, duration: Duration(seconds: 3));
+          backgroundColor: CColors.kWhite,
+          duration: const Duration(seconds: 3));
       loading.value = false;
     }
   }

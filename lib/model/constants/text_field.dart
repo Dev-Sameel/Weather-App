@@ -12,5 +12,5 @@ class CTextField {
       borderRadius: BorderRadius.circular(CSize.lg * 2),
       borderSide: const BorderSide(color: CColors.kWhite));
 
-  static var textfieldTextStyle1 = TextStyle(color: CColors.kWhite);
+  static var textfieldTextStyle1 = const TextStyle(color: CColors.kWhite);
 }

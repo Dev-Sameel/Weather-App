@@ -2,10 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:weather/controller/authcontroller/authcontroller.dart';
-import 'package:weather/services/db/local_storage_services.dart';
 
-import 'package:weather/view/authentication/login/login.dart';
+import 'package:weather/view/home/widgets/signout_dialog.dart';
 
 import '../../controller/weather_controller.dart';
 import '../../model/constants/color.dart';
@@ -15,10 +13,10 @@ import 'widgets/c_weather_header.dart';
 import 'widgets/c_weather_result.dart';
 import 'widgets/c_weather_value_text.dart';
 
+// ignore: must_be_immutable
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
   FirebaseAuth auth = FirebaseAuth.instance;
-  final ctrl = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +29,7 @@ class HomeScreen extends StatelessWidget {
           IconButton(
               padding: const EdgeInsets.only(right: CSize.md),
               onPressed: () async {
-                await ctrl.signout();
-                await DBServices().clearAllData();
-                Get.offAll(() => LoginScreen());
+                await signoutDialod();
               },
               icon: const Icon(Icons.exit_to_app))
         ],
@@ -45,7 +41,7 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             children: [
               auth.currentUser!.emailVerified
-                  ? SizedBox()
+                  ? const SizedBox()
                   : Text('${auth.currentUser!.email!} not verifyed'),
               const SizedBox(
                 height: CSize.spaceBtwSections,
@@ -75,7 +71,7 @@ class HomeScreen extends StatelessWidget {
                       ? Center(
                           child: Container(
                             margin: const EdgeInsets.all(CSize.lg),
-                            height: 100,
+                            height: MediaQuery.of(context).size.height / 9,
                             width: double.infinity,
                             decoration: BoxDecoration(
                               border: Border.all(
