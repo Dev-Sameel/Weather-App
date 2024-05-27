@@ -3,15 +3,17 @@ import 'package:get/get.dart';
 import 'package:weather/model/constants/color.dart';
 import 'package:weather/model/constants/size.dart';
 import 'package:weather/model/constants/text_field.dart';
-import 'package:weather/view/authentication/signup/signup.dart';
+import 'package:weather/view/authentication/forgot_password/forgot_password.dart';
 
+import '../../../controller/authcontroller/authcontroller.dart';
 import 'widgets/c_divider.dart';
 import 'widgets/c_footer.dart';
 import 'widgets/c_round_image.dart';
 import 'widgets/c_textformfield.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  LoginScreen({super.key});
+  final ctrl = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
@@ -37,70 +39,96 @@ class LoginScreen extends StatelessWidget {
             ),
 
             ///TextField and Button
-            Padding(
-              padding: const EdgeInsets.all(CSize.lg * 1.5),
-              child: Column(
-                children: [
-                  CTextFormField(
-                    border: CTextField.textFieldBorder1,
-                    icon: Icons.mail,
-                    label: 'Email',
-                  ),
-                  const SizedBox(
-                    height: CSize.spaceBtwItems,
-                  ),
-                  CTextFormField(
-                    border: CTextField.textFieldBorder1,
-                    icon: Icons.password,
-                    label: 'Password',
-                  ),
+            Obx(() {
+              return Padding(
+                padding: const EdgeInsets.all(CSize.lg * 1.5),
+                child: Column(
+                  children: [
+                    CTextFormField(
+                      controller: ctrl.loginemail,
+                      border: CTextField.textFieldBorder1,
+                      icon: Icons.mail,
+                      label: 'Email',
+                    ),
+                    const SizedBox(
+                      height: CSize.spaceBtwItems,
+                    ),
+                    CTextFormField(
+                      controller: ctrl.loginpassword,
+                      border: CTextField.textFieldBorder1,
+                      icon: Icons.lock,
+                      label: 'Password',
+                    ),
 
-                  ///Button
-                  const SizedBox(
-                    height: CSize.spaceBtwSections,
-                  ),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            foregroundColor: CColors.kWhite,
-                            backgroundColor: CColors.kBgcolor),
-                        onPressed: () {},
-                        child: const Text('SIGN IN')),
-                  ),
+                    Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                            onPressed: () {
+                              Get.to(() =>  ForgotPassword());
+                            },
+                            child: Text(
+                              'Forgot password?',
+                              style: TextStyle(color: CColors.kOrange),
+                            ))),
 
-                  ///Divider
-                  const SizedBox(
-                    height: CSize.spaceBtwSections,
-                  ),
+                    ///Button
+                    const SizedBox(
+                      height: CSize.spaceBtwSections,
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              foregroundColor: CColors.kWhite,
+                              backgroundColor: CColors.kBgcolor),
+                          onPressed: () async {
+                            if (ctrl.loginemail.text.isEmpty ||
+                                ctrl.loginemail.text.isEmpty) {
+                              Get.snackbar('Alert', 'Enter email&password',
+                                  backgroundColor: CColors.kWhite);
+                            } else {
+                              await ctrl.signin();
+                            }
+                          },
+                          child: ctrl.loading.value
+                              ? CircularProgressIndicator()
+                              : Text('SIGN IN')),
+                    ),
 
-                  const CFormDivider(),
-                  const SizedBox(
-                    height: CSize.spaceBtwSections,
-                  ),
+                    ///Divider
+                    const SizedBox(
+                      height: CSize.spaceBtwSections,
+                    ),
 
-                  ///Google Image
-                  const SizedBox(
-                    width: double.infinity,
-                    child: Center(
-                      child: Image(
-                        image: AssetImage('assets/images/google-icon.png'),
-                        width: 35,
+                    const CFormDivider(),
+                    const SizedBox(
+                      height: CSize.spaceBtwSections,
+                    ),
+
+                    ///Google Image
+                    const SizedBox(
+                      width: double.infinity,
+                      child: Center(
+                        child: Image(
+                          image: AssetImage('assets/images/google-icon.png'),
+                          width: 35,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: CSize.spaceBtwSections,
-                  ),
+                    const SizedBox(
+                      height: CSize.spaceBtwSections,
+                    ),
 
-                  ///Divider
-                  CTextFieldFooter(
-                    buttonLabel: 'SIGN UP',
-                  )
-                ],
-              ),
-            ),
+                    ///Divider
+                    CTextFieldFooter(
+                      buttonLabel: 'SIGN UP',
+                      textLabel: "Don't have an account?",
+                    )
+                  ],
+                ),
+              );
+            }),
           ],
         ),
       ),

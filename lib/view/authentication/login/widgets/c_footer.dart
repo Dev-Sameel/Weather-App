@@ -9,20 +9,19 @@ class CTextFieldFooter extends StatelessWidget {
   const CTextFieldFooter({
     super.key,
     this.style = const TextStyle(color: CColors.kBlack),
-    required this.buttonLabel,
+    required this.buttonLabel, required this.textLabel,
   });
   final TextStyle? style;
   final String buttonLabel;
+  final String textLabel;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-          buttonLabel == 'SIGN IN'
-              ? "Already have an account?"
-              : "Don't have an account?",
+        Text(textLabel
+       ,
           style: style,
         ),
         TextButton(
@@ -33,7 +32,7 @@ class CTextFieldFooter extends StatelessWidget {
             },
             child: Text(
               buttonLabel,
-              style: TextStyle(color: Colors.blue),
+              style: TextStyle(color: CColors.kBlue),
             ))
       ],
     );

@@ -11,9 +11,9 @@ class CTextFormField extends StatelessWidget {
     required this.icon,
     this.iconColor = CColors.kBlack,
     required this.label,
-    required this.border,
+    required this.border, this.controller,
   });
-
+  final TextEditingController? controller;
   final TextStyle? style;
   final EdgeInsets? contentPadding;
   final IconData icon;
@@ -24,6 +24,7 @@ class CTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
         style: style,
         decoration: InputDecoration(
           contentPadding: contentPadding,
